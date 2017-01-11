@@ -1,5 +1,17 @@
 <html>
 <head>
+
+</head>
+<body>
+<input type="hidden" id="suggestion" />
+<form>
+<input type="text" size="30" onkeyup="showResult(this.value)">
+<div id="livesearch"></div>
+<ul>
+</ul>
+</form>
+
+</body>
 <script>
 function showResult(str) {
   if (str.length==0) {
@@ -27,23 +39,44 @@ function showResult(str) {
 
 var call = function(){
   var data = document.getElementById("suggestion").value;
-  console.log(data);
+  data.toString();
+  var es = data.substring(1);
+  var obj = JSON.parse(es);
+
+  console.log(showObject(obj));
+  var result = 0;
+  var keys = [];
+
+  forIn(obj, function(val, key, o){
+  console.log(result);
+  result += val;
+  keys.push(key);
+  });
+  console.log(result);
+}
+
+function showObject(obj) {
+  var result = "";
+  for (var p in obj) {
+    if( obj.hasOwnProperty(p) ) {
+      result += p + " , " + obj[p] + "\n";
+    }
+  }
+  return result;
+}
+
+function forIn(obj, fn, thisObj){
+  var key, i = 0;
+  for (key in obj) {
+    if (exec(fn, obj, key, thisObj) === false) {
+      break;
+    }
+  }
+  function exec(fn, obj, key, thisObj){
+    return fn.call(thisObj, obj[key], key, obj);
+  }
+  return forIn;
 };
 
-(function(){
-  var data = document.getElementById("suggestion").value;
-  console.log(data);
-})();
 </script>
-</head>
-<body>
-<input type="hidden" id="suggestion" />
-<form>
-<input type="text" size="30" onkeyup="showResult(this.value)">
-<div id="livesearch"></div>
-<ul>
-</ul>
-</form>
-
-</body>
 </html>

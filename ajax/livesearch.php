@@ -65,5 +65,5 @@ if(!empty($result)){
 	$response=array_push($data, "No available record");
 }
 echo count($result);
-echo json_encode($response);
+echo json_encode($response, JSON_FORCE_OBJECT);
 ?>
