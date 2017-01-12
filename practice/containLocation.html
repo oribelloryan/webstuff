@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   
+
+    <title>THE INTERCEPTOR - CREATE PLAN</title>
+    
+    <style>
+      #map{
+        width: 1000px;
+        height:700px;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    
+    <div id="map" ></div>
+    <script src='boundaryLocation.js'></script>script>
+    <script type="text/javascript">
+    var minZoomLevel = 15;
+    var centeroftheearth = {lat: 14.600700, lng: 121.036745};
+    var map;
+    var directionsService;
+    var directionsDisplay;
+    function initMap() {
+     directionsService = new google.maps.DirectionsService;
+     directionsDisplay = new google.maps.DirectionsRenderer;
+    map = new google.maps.Map(document.getElementById('map'), {
+    zoom: minZoomLevel,
+    scrollwheel: false,
+    navigationControl: false,
+    mapTypeControl: false,
+    scaleControl: false,
+    draggable: false,
+    center: centeroftheearth ,
+    mapTypeId: 'roadmap'
+    
+    });
+   
+   set(map);
+    }
+
+    var markerCounter = 0;
+    
+    function addMarker(location, map) {
+    // Add the marker at the clicked location, and add the next-available label
+    // from the array of alphabetical characters.
+       var allowedMarker = 1;
+    if(markerCounter < allowedMarker){
+        markerCounter++;
+    marker = new google.maps.Marker({
+    position: location,
+    map: map
+    });
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    }else{
+        alert("One marker at a time");
+        return false;
+    }
+
+
+    }
+    var circleCounter = 0;
+     function addMarker2(location, map,ctr,i,directionsService, directionsDisplay) {
+    // Add the marker at the clicked location, and add the next-available label
+    // from the array of alphabetical characters.
+    var allowedCircle = 1;
+    if(circleCounter < allowedCircle){
+    circleCounter++;
+    var ctr;
+    var curr;
+    var point1=[];
+    //var directionService = new google.maps.DirectionService();
+    var mapradius=100*.0000100;
+    var xcor;
+    var ycor;
+    for (ctr=0;ctr<360;ctr++){
+    xcor=location.lat()+(mapradius*Math.cos(ctr));
+    ycor=location.lng()+(mapradius*Math.sin(ctr));
+    var newlocation = {latlng:new google.maps.LatLng(xcor,ycor)};
+    var check = {latlng:new google.maps.LatLng(xcor,ycor)};
+    point1.push(newlocation);
+    ctr=ctr+15;
+    xcor=xcor;
+    ycor=ycor;
+    }
+    var i;
+    var marker;
+    for (i=0;i<point1.length;i++){
+     marker = new google.maps.Marker({
+    position:point1[i].latlng,
+    map: map
+    });
+    marker.setAnimation(google.maps.Animation.DROP);
+    }
+    /*alertMarker = map.getBounds().contains(marker.getPosition());
+    alert(alertMarker);*/
+    var confirmation = confirm("Are you sure to save this target area?");
+    if(confirmation == true){
+        
+    }else if(confirmation == false){
+        marker.setMap(null);
+        alert("False");
+    }
+    }else{
+        return false;
+    }
+    }
+  
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1SFa75QzMfOtf7rudCh6RFgaNk6ptbzo&libraries=geometry&callback=initMap">
+    </script>
+  </body>
+</html>
